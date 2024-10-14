@@ -1,0 +1,21 @@
+<main>
+  <aside>
+
+    <label for="countries">Choose a country:</label>
+
+    <select name="countries" id="countries" [(ngModel)]="selectedCountry" (change)="getSingleCountry()">
+      <option *ngFor="let country of countries" value="{{ country.iso }}" [ngValue]="country">
+        {{country.name}}
+      </option>
+    </select>
+
+    <h2>Selected country: {{ selectedCountry?.name }}</h2>
+
+  </aside>
+  <section>
+    <div *ngIf="singleCountry">
+      <h3>{{selectedCountry.name}} data:</h3>
+      <p>Confirmed cases: {{ singleCountry.confirmed }} Confirmed deaths: {{ singleCountry.deaths }}</p>
+    </div>
+  </section>
+</main>
