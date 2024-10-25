@@ -1,26 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { CovidapiService } from '../../services/covidapi.service';
 import { CommonModule } from '@angular/common';
-import { response } from 'express';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { VerticalBarChartComponent } from '../../components/vertical-bar-chart/vertical-bar-chart.component';
+import { StackedAreaChartComponent } from "../../components/stacked-area-chart/stacked-area-chart.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  constructor(private covidApiService: CovidapiService, private router: Router) {}
+
+  navigateToCompare(): void {
+    this.router.navigate(['/compare'])
+  }
+
+
   countries: any[] = [];
   singleCountry: any;
   selectedCountry: any;
-
-  constructor(private covidApiService: CovidapiService) {}
+  selectedDate: any;
+  provincesFromCountry: any[] = [];
+  componentData: any[] = [];
+  showVerticalBarChart: boolean = false;
+  showStackedAreaChart: boolean = false;
 
   ngOnInit(): void {
     this.fetchCountries();
-    this.getSingleCountry();
   }
 
   fetchCountries(): void {
@@ -37,15 +48,32 @@ export class DashboardComponent implements OnInit {
 
   getSingleCountry(): void {
     if (this.selectedCountry && this.selectedCountry.iso) {
-      this.covidApiService.getSingleCountry(this.selectedCountry.iso).subscribe(
+      this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
         (response) => {
           this.singleCountry = response.data;
+
+
+
           console.log(this.singleCountry);
         },
         (error) => {
           console.error('Error fetching country', error);
         }
-    )
+      );
+    }
   }
-}
+
+  getProvincesFromCountry(): void {
+    if (this.selectedCountry && this.selectedCountry.iso) {
+      this.covidApiService.getProvincesFromCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
+        (response) => {
+          this.provincesFromCountry = response.data;
+          console.log('Provinces: ', this.provincesFromCountry);
+        },
+        (error) => {
+          console.error('Error fetching country', error);
+        }
+      );
+    }
+  }
 }

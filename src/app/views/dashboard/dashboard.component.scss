@@ -1,3 +1,16 @@
+.flexRow {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 5%;
+  width: 100%;
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   width: 100vw;
   height: 100vh;
@@ -8,19 +21,103 @@ main {
 
 aside {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+
   flex-direction: column;
 
+  padding: 10px;
   width: 20%;
 
-  box-shadow: 5px 5px;
+  box-shadow: 10px 10px 5px lightblue;
+}
+
+.asideTitleBox {
+  display: flex;
+
+  align-items: center;
+  width: 100%;
+
+
 }
 
 section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 30px;
+  gap: 30px;
+
+  width: 80%;
+}
+
+.countryTitleBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 95%;
+
+  background-color: bisque;
+  border-radius: 10px;
+
+}
+
+.halfBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 45%;
+
+  background-color: bisque;
+  border-radius: 10px;
+}
+
+.provinceContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 95%;
+
+  @media (max-width: 1300px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.provinceBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 250px;
+  height: 75px;
+  margin-top: 25px;
+
+  box-shadow: 10px 10px 5px lightblue;
+  border-radius: 10px;
+}
+
+
+
+
+
+.noCountrySelectedSection {
   display: flex;
   justify-content: center;
   align-items: center;
 
   width: 80%;
+
+  font-size: 40px;
+  color: gray;
+  opacity: 50%;
 }

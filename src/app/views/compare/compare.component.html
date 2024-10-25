@@ -1,0 +1,22 @@
+<main>
+  <aside>
+    <div class="asideTitleBox">
+      <h1>Compare Countries</h1>
+    </div>
+    <label for="countries">Choose countries:</label>
+    <select name="countries" id="countries" [(ngModel)]="countryToAdd">
+      <option *ngFor="let country of countries" [ngValue]="country">
+        {{country.name}}
+      </option>
+    </select>
+    <button (click)="addCountry()">Add</button>
+    <h2 *ngIf="selectedCountries.length">Selected countries:</h2>
+    <ul>
+      <li *ngFor="let country of selectedCountries">{{ country.name }}</li>
+    </ul>
+  </aside>
+  <section>
+    <app-vertical-bar-chart [compareCountries]="compareCountries" [displayMode]="'compare'"></app-vertical-bar-chart>
+    <app-stacked-area-chart [displayMode]="'compare'"></app-stacked-area-chart>
+  </section>
+</main>
