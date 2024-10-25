@@ -1,21 +1,68 @@
 <main>
   <aside>
+    <div class="asideTitleBox">
+      <h1>Covid 19 <br>data visualization tool</h1>
+    </div>
 
     <label for="countries">Choose a country:</label>
-
     <select name="countries" id="countries" [(ngModel)]="selectedCountry" (change)="getSingleCountry()">
       <option *ngFor="let country of countries" value="{{ country.iso }}" [ngValue]="country">
         {{country.name}}
       </option>
     </select>
 
-    <h2>Selected country: {{ selectedCountry?.name }}</h2>
+    <h2 *ngIf="selectedCountry">Selected country: {{ selectedCountry?.name }}</h2>
+
+    <div *ngIf="selectedCountry">
+      <div class="flexCol">
+        <label for="Date">Select a date</label>
+        <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/>
+      </div>
+      <div>
+        <label for="verticalBarChart">Vertical bar chart</label>
+        <input type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
+        <label for="stackedAreaChart">Stacked area chart</label>
+        <input type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart">
+      </div>
+    </div>
 
   </aside>
-  <section>
-    <div *ngIf="singleCountry">
-      <h3>{{selectedCountry.name}} data:</h3>
-      <p>Confirmed cases: {{ singleCountry.confirmed }} Confirmed deaths: {{ singleCountry.deaths }}</p>
+  <div *ngIf="!selectedCountry" class="noCountrySelectedSection">
+    <h2>Select a country to begin</h2>
+  </div>
+  <section *ngIf="singleCountry">
+    <div class="countryTitleBox" >
+      <h1>{{selectedCountry.name}} data:</h1>
+      <button (click)="getProvincesFromCountry()">Provinces</button>
+      <button (click)="navigateToCompare()">Compare</button>
+    </div>
+    <div class="flexRow ">
+      <div class="halfBox">
+        <div>Confirmed cases:</div>
+        <h2>{{ singleCountry.confirmed }}</h2>
+      </div>
+      <div class="halfBox">
+        <div>Confirmed deaths:</div>
+        <h2>{{ singleCountry.deaths }}</h2>
+      </div>
+    </div>
+    <div *ngIf="showVerticalBarChart">
+      <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
+    </div>
+    <div *ngIf="showStackedAreaChart">
+      <app-stacked-area-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'" ></app-stacked-area-chart>
+    </div>
+    <div class="provinceContainer">
+      <div *ngFor="let province of provincesFromCountry">
+        <span *ngIf="province; else noProvince">
+          <div class="provinceBox">
+            {{ province.province }}
+          </div>
+        </span>
+        <ng-template #noProvince>
+          <span><p>No province data available for this country</p></span>
+        </ng-template>
+      </div>
     </div>
   </section>
 </main>
