@@ -1,7 +1,7 @@
 <main>
   <aside>
     <div class="asideTitleBox">
-      <h1>Covid 19 <br>data visualization tool</h1>
+      <h2>Filter your data</h2>
     </div>
 
     <label for="countries">Choose a country:</label>
@@ -19,10 +19,22 @@
         <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/>
       </div>
       <div>
-        <label for="verticalBarChart">Vertical bar chart</label>
-        <input type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
-        <label for="stackedAreaChart">Stacked area chart</label>
-        <input type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart">
+        <div class="inputRow">
+          <label class="container">
+            <input checked="checked" type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
+            <div class="checkmark"></div>
+          </label>
+          <label for="verticalBarChart"><p>Vertical bar chart</p></label>
+        </div>
+
+        <div class="inputRow">
+          <label class="container">
+            <input checked="checked" type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart">
+            <div class="checkmark"></div>
+          </label>
+          <label for="stackedAreaChart"><p>Stacked area chart</p></label>
+        </div>
+
       </div>
     </div>
 

@@ -37,7 +37,6 @@ export class VerticalBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.getSingleCountry();
     console.log('VerticalBarChartComponent initialized with data:', this.compareCountries);
-    console.log('testData', this.testData)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -83,18 +82,6 @@ export class VerticalBarChartComponent implements OnInit {
     }
   }
 
-  testData = [
-    { name: 'sverige', value: 11234 },
-    { name: 'norge', value: 12504}
-  ]
-
-
-  yAxisLabel: string = 'Cases';
-  timeline: boolean = true;
-
-  colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
 
 
   onSelect(event: any): void {

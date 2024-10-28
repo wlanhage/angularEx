@@ -74,6 +74,16 @@ section {
   border-radius: 10px;
 }
 
+.inputRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  width: 100%;
+  font-size: 17px;
+}
+
 .provinceContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -1,5 +1,15 @@
-<p>home works!</p>
-<h1>To the dashboard!</h1>
-<button (click)="navigateToDashboard()">Dashboard</button>
-<button (click)="navigateToTestpage()">Testpage</button>
-<button (click)="navigateToCompare()">Compare</button>
+<main>
+  <div class="heroContainer">
+    <video autoplay muted loop id="backgroundVideo">
+      <source src="/earth_vid.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="heroContent">
+      <h1>COVID 19 DATA TOOL</h1>
+      <p>Discover and compare data from the Covid 19 pandemic from all countries around the globe</p>
+      <button (click)="navigateToDashboard()">Dashboard</button>
+      <button (click)="navigateToCompare()">Compare</button>
+    </div>
+    <button (click)="navigateToTestpage()">Testpage</button>
+  </div>
+</main>
