@@ -11,7 +11,7 @@ import { StackedAreaChartComponent } from "../../components/stacked-area-chart/s
   standalone: true,
   imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss', '../../styleElements/styleElements.scss']
 })
 export class DashboardComponent implements OnInit {
   constructor(private covidApiService: CovidapiService, private router: Router) {}

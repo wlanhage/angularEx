@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss', '../../styleElements/styleElements.scss']
 })
 export class HomeComponent {
   constructor(private router: Router) {}
@@ -20,7 +20,7 @@ export class HomeComponent {
   }
 
   navigateToCompare(): void {
-    this.router.navigate(['compare'])
+    this.router.navigate(['/compare'])
   }
 
 }
