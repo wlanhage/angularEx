@@ -25,7 +25,6 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 export class VerticalBarChartComponent implements OnInit {
-
   @Input() selectedCountry: any;
   @Input() selectedDate: any;
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
@@ -41,8 +40,7 @@ export class VerticalBarChartComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['compareCountries']) {
-      this.componentData = [...changes['compareCountries'].currentValue]; // Se till att ny data används
-
+      this.componentData = [...changes['compareCountries'].currentValue];
     }
   }
 
@@ -51,12 +49,10 @@ export class VerticalBarChartComponent implements OnInit {
       this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
         (response) => {
           const singleCountry = response.data;
-
           this.componentData = [
             { name: 'Confirmed', value: singleCountry.confirmed },
             { name: 'Deaths', value: singleCountry.deaths }
           ];
-
           console.log(this.componentData);
         },
         (error) => {
@@ -65,14 +61,12 @@ export class VerticalBarChartComponent implements OnInit {
       );
     } else if (this.displayMode === 'compare' && this.compareCountries.length > 0) {
       const requests = this.compareCountries.map(country => this.covidApiService.getSingleCountry(country.iso));
-
       forkJoin(requests).subscribe(
         (responses) => {
           this.componentData = responses.map((response, index) => ({
             name: this.compareCountries[index].name,
             value: response.data.confirmed
           }));
-
           console.log('componentData:', this.componentData);
         },
         (error) => {
@@ -81,8 +75,6 @@ export class VerticalBarChartComponent implements OnInit {
       );
     }
   }
-
-
 
   onSelect(event: any): void {
     console.log(event);

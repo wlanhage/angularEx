@@ -4,18 +4,16 @@
       <h2>Filter your data</h2>
     </div>
 
-    <label for="countries">Choose a country:</label>
+    <label for="countries"><h3>Choose a country:</h3></label>
     <select name="countries" id="countries" [(ngModel)]="selectedCountry" (change)="getSingleCountry()">
       <option *ngFor="let country of countries" value="{{ country.iso }}" [ngValue]="country">
         {{country.name}}
       </option>
     </select>
 
-    <h2 *ngIf="selectedCountry">Selected country: {{ selectedCountry?.name }}</h2>
-
     <div *ngIf="selectedCountry">
       <div class="flexCol">
-        <label for="Date">Select a date</label>
+        <label for="Date"><h3>Select a date</h3></label>
         <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/>
       </div>
       <div>
@@ -48,16 +46,22 @@
       <button (click)="getProvincesFromCountry()">Provinces</button>
       <button (click)="navigateToCompare()">Compare</button>
     </div>
-    <div class="flexRow ">
-      <div class="halfBox">
-        <div>Confirmed cases:</div>
-        <h2>{{ singleCountry.confirmed }}</h2>
-      </div>
-      <div class="halfBox">
-        <div>Confirmed deaths:</div>
-        <h2>{{ singleCountry.deaths }}</h2>
+    <div class="dataContainer" *ngIf="singleCountry.confirmed > 0">
+      <div class="flexRow ">
+        <div class="halfBox">
+          <div>Confirmed cases:</div>
+          <h2>{{ singleCountry.confirmed }}</h2>
+        </div>
+        <div class="halfBox">
+          <div>Confirmed deaths:</div>
+          <h2>{{ singleCountry.deaths }}</h2>
+        </div>
       </div>
     </div>
+    <div *ngIf="!singleCountry.confirmed">
+      <h2>No data available for {{ selectedCountry.name }}</h2>
+    </div>
+
     <div *ngIf="showVerticalBarChart">
       <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
     </div>

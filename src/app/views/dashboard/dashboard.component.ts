@@ -51,9 +51,6 @@ export class DashboardComponent implements OnInit {
       this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
         (response) => {
           this.singleCountry = response.data;
-
-
-
           console.log(this.singleCountry);
         },
         (error) => {
