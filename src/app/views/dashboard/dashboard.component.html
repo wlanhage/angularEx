@@ -1,61 +1,82 @@
 <main>
   <aside>
-    <div class="asideTitleBox">
-      <h2>Filter your data</h2>
-    </div>
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Filter your data</h1>
+        </mat-card-title>
+        <mat-card-actions>
+          <app-homebutton />
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Choose country</mat-label>
+          <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()">
+            <mat-option *ngFor="let country of countries" [value]="country">
+              {{ country.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <label for="countries"><h3>Choose a country:</h3></label>
-    <select name="countries" id="countries" [(ngModel)]="selectedCountry" (change)="getSingleCountry()">
-      <option *ngFor="let country of countries" value="{{ country.iso }}" [ngValue]="country">
-        {{country.name}}
-      </option>
-    </select>
+        <div *ngIf="selectedCountry">
 
-    <div *ngIf="selectedCountry">
-      <div class="flexCol">
-        <label for="Date"><h3>Select a date</h3></label>
-        <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/>
-      </div>
-      <div>
-        <div class="inputRow">
-          <label class="container">
-            <input checked="checked" type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
-            <div class="checkmark"></div>
-          </label>
-          <label for="verticalBarChart"><p>Vertical bar chart</p></label>
+          <mat-form-field appearance="fill">
+            <mat-label>Select a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="getSingleCountry()">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+            <!-- <label for="Date"><h3>Select a date</h3></label>
+            <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/> -->
+
+          <div>
+            <div class="inputRow">
+              <label class="container">
+                <input checked="checked" type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
+                <div class="checkmark"></div>
+              </label>
+              <label for="verticalBarChart"><p>Vertical bar chart</p></label>
+            </div>
+
+            <div class="inputRow">
+              <label class="container">
+                <input checked="checked" type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart" [disabled]="!selectedCountry">
+                <div class="checkmark"></div>
+              </label>
+              <label for="stackedAreaChart"><p>Stacked area chart</p></label>
+            </div>
+
+          </div>
         </div>
-
-        <div class="inputRow">
-          <label class="container">
-            <input checked="checked" type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart">
-            <div class="checkmark"></div>
-          </label>
-          <label for="stackedAreaChart"><p>Stacked area chart</p></label>
-        </div>
-
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
 
   </aside>
   <div *ngIf="!selectedCountry" class="noCountrySelectedSection">
     <h2>Select a country to begin</h2>
   </div>
   <section *ngIf="singleCountry">
-    <div class="countryTitleBox" >
+    <mat-card >
       <h1>{{selectedCountry.name}} data:</h1>
-      <button (click)="getProvincesFromCountry()">Provinces</button>
-      <button (click)="navigateToCompare()">Compare</button>
-    </div>
+      <div class="example-button-row">
+        <button mat-stroked-button (click)="getProvincesFromCountry()">Provinces</button>
+        <button mat-stroked-button (click)="navigateToCompare()">Compare</button>
+      </div>
+    </mat-card>
     <div class="dataContainer" *ngIf="singleCountry.confirmed > 0">
       <div class="flexRow ">
-        <div class="halfBox">
+
+          <mat-card>
           <div>Confirmed cases:</div>
           <h2>{{ singleCountry.confirmed }}</h2>
-        </div>
-        <div class="halfBox">
+        </mat-card>
+
+        <mat-card>
           <div>Confirmed deaths:</div>
           <h2>{{ singleCountry.deaths }}</h2>
-        </div>
+        </mat-card>
       </div>
     </div>
     <div *ngIf="!singleCountry.confirmed">
@@ -82,3 +103,4 @@
     </div>
   </section>
 </main>
+

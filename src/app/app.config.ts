@@ -5,6 +5,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 
 export const appConfig: ApplicationConfig = {
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     BrowserAnimationsModule,
     provideAnimationsAsync(),
+    provideNativeDateAdapter()
 
 
   ]
