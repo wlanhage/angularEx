@@ -5,16 +5,24 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VerticalBarChartComponent } from '../../components/vertical-bar-chart/vertical-bar-chart.component';
 import { StackedAreaChartComponent } from "../../components/stacked-area-chart/stacked-area-chart.component";
+import { HomebuttonComponent } from '../../components/homebutton/homebutton.component';
+import { MaterialModule } from '../../material.module';
+import { countriesData } from '../../models/countries-data';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent],
+  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, HomebuttonComponent, MaterialModule],
+  providers: [],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss', '../../styleElements/styleElements.scss']
+  styleUrls: ['./dashboard.component.scss', /* '../../styleElements/styleElements.scss' */]
 })
 export class DashboardComponent implements OnInit {
-  constructor(private covidApiService: CovidapiService, private router: Router) {}
+  constructor(
+    private covidApiService: CovidapiService,
+    private router: Router,
+  ) {}
 
   navigateToCompare(): void {
     this.router.navigate(['/compare'])
@@ -29,6 +37,7 @@ export class DashboardComponent implements OnInit {
   componentData: any[] = [];
   showVerticalBarChart: boolean = false;
   showStackedAreaChart: boolean = false;
+  countriesLoop: countriesData[] = [];
 
   ngOnInit(): void {
     this.fetchCountries();
@@ -38,6 +47,7 @@ export class DashboardComponent implements OnInit {
     this.covidApiService.getCountries().subscribe(
       (response) => {
         this.countries = response.data;
+        this.countriesLoop = [...this.countries];
         console.log(this.countries);
       },
       (error) => {
@@ -51,9 +61,6 @@ export class DashboardComponent implements OnInit {
       this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
         (response) => {
           this.singleCountry = response.data;
-
-
-
           console.log(this.singleCountry);
         },
         (error) => {
@@ -76,4 +83,5 @@ export class DashboardComponent implements OnInit {
       );
     }
   }
+
 }

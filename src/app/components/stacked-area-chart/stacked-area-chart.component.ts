@@ -63,7 +63,7 @@ export class StackedAreaChartComponent implements OnInit {
               }))
             }
           ];
-          console.log('Component data for dashboard mode:', this.componentData);
+          console.log('Component data för dashboard:', this.componentData);
         },
         (error) => {
           console.error('Error fetching country data for years', error);
@@ -74,12 +74,10 @@ export class StackedAreaChartComponent implements OnInit {
       const requests = this.compareCountries.map(country => {
         return dates.map(date => this.covidApiService.getSingleCountry(country.iso, date));
       }).flat();
+
+
       forkJoin(requests).subscribe(
         (responses) => {
-          console.log('Responses for compare mode:', responses);
-          responses.forEach((response, index) => {
-            console.log(`Response for ${this.compareCountries[Math.floor(index / dates.length)].name} on ${dates[index % dates.length]}:`, response);
-          });
           const groupedResponses = this.groupResponsesByCountry(responses, dates.length);
           console.log('Grouped responses:', groupedResponses);
           this.componentData = this.compareCountries.map((country, countryIndex) => ({
@@ -102,11 +100,10 @@ export class StackedAreaChartComponent implements OnInit {
   }
 
   private groupResponsesByCountry(responses: any[], datesLength: number): any[][] {
-    const groupedResponses = [];
+    const groupedResponses: any[][] = [];
     for (let i = 0; i < responses.length; i += datesLength) {
       groupedResponses.push(responses.slice(i, i + datesLength));
     }
-    console.log('Grouped responses by country:', groupedResponses);
     return groupedResponses;
   }
 }

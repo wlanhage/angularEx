@@ -1,22 +1,61 @@
 <main>
   <aside>
+    <app-homebutton />
     <div class="asideTitleBox">
       <h1>Compare Countries</h1>
     </div>
-    <label for="countries">Choose countries:</label>
-    <select name="countries" id="countries" [(ngModel)]="countryToAdd">
-      <option *ngFor="let country of countries" [ngValue]="country">
-        {{country.name}}
-      </option>
-    </select>
-    <button (click)="addCountry()">Add</button>
-    <h2 *ngIf="selectedCountries.length">Selected countries:</h2>
-    <ul>
-      <li *ngFor="let country of selectedCountries">{{ country.name }}</li>
-    </ul>
+
+    <mat-form-field>
+      <mat-label>Select countries to compare</mat-label>
+      <mat-select name="countries" id="countries" [(ngModel)]="countryToAdd">
+        <mat-option *ngFor="let country of countriesLoop" [value]="country">
+          {{country.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button (click)="addCountry()">Add</button>
+
+    <div>
+      <div class="inputRow">
+        <mat-checkbox
+          [checked]="showVerticalBarChart"
+          (change)="toggleVerticalBarChart()"
+          [disabled]="selectedCountries.length == 0"
+        >
+          Vertical bar chart
+        </mat-checkbox>
+      </div>
+      <div class="inputRow">
+        <mat-checkbox
+          [checked]="showStackedAreaChart"
+          (change)="toggleStackedAreaChart()"
+          [disabled]="selectedCountries.length == 0"
+        >
+          Stacked area chart
+        </mat-checkbox>
+      </div>
+    </div>
   </aside>
   <section>
-    <app-vertical-bar-chart [compareCountries]="compareCountries" [displayMode]="'compare'"></app-vertical-bar-chart>
-    <app-stacked-area-chart [compareCountries]="compareCountries" [displayMode]="'compare'"></app-stacked-area-chart>
+    <mat-card *ngIf="selectedCountries.length > 0">
+      <mat-tab-group>
+        <mat-tab label="Data table">
+          <div class="basicDataContainer">
+            <app-table-component [selectedCountries]="selectedCountries"></app-table-component>
+          </div>
+        </mat-tab>
+          <div *ngIf="showVerticalBarChart">
+            <mat-tab label="Bar chart">
+              <app-vertical-bar-chart [compareCountries]="selectedCountries" [displayMode]="'compare'"></app-vertical-bar-chart>
+            </mat-tab>
+          </div>
+        <div *ngIf="showStackedAreaChart">
+          <mat-tab label="Area chart">
+            <app-stacked-area-chart [compareCountries]="selectedCountries" [displayMode]="'compare'"></app-stacked-area-chart>
+          </mat-tab>
+        </div>
+      </mat-tab-group>
+    </mat-card>
   </section>
 </main>

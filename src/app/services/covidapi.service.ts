@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CovidapiService {
-  private countriesUrl = 'https://covid-api.com/api/regions?per_page=300&order=iso&sort=asc';
+  private countriesUrl = 'https://covid-api.com/api/regions?per_page=300&order=name&sort=asc';
 
   constructor(private http: HttpClient) { }
 

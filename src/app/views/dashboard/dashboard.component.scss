@@ -12,7 +12,7 @@
 }
 
 main {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
   display: flex;
@@ -21,14 +21,14 @@ main {
 
 aside {
   display: flex;
-  /* justify-content: center; */
+  //justify-content: center;
 
   flex-direction: column;
 
   padding: 10px;
   width: 20%;
 
-  box-shadow: 10px 10px 5px lightblue;
+  // box-shadow: 10px 10px 5px lightblue;
 }
 
 .asideTitleBox {
@@ -44,9 +44,6 @@ section {
   display: flex;
   align-items: center;
   flex-direction: column;
-
-  margin-top: 30px;
-  gap: 30px;
 
   width: 80%;
 }
@@ -80,8 +77,17 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-top: 14px;
-  width: 100%;
+  width: 96%;
   font-size: 17px;
+
+  border: 2px solid black;
+  border-radius: 10px;
+
+  padding: 6px;
+}
+
+.dataContainer {
+  width: 100%;
 }
 
 .provinceContainer {
