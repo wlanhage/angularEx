@@ -65,7 +65,18 @@ section {
   gap: 50px;
 }
 
+.divContainer {
+  width: 80%;
+  height: 100vh;
+}
+
 .basicDataContainer {
-  width: 80vw;
+padding: 50px;
+
+}
+
+mat-card {
+  max-width: 100%;
+  min-height: 40%;
 
 }

@@ -9,7 +9,6 @@ import { HomebuttonComponent } from '../../components/homebutton/homebutton.comp
 import { MaterialModule } from '../../material.module';
 import { countriesData } from '../../models/countries-data';
 
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -24,11 +23,6 @@ export class DashboardComponent implements OnInit {
     private router: Router,
   ) {}
 
-  navigateToCompare(): void {
-    this.router.navigate(['/compare'])
-  }
-
-
   countries: any[] = [];
   singleCountry: any;
   selectedCountry: any;
@@ -39,6 +33,9 @@ export class DashboardComponent implements OnInit {
   showStackedAreaChart: boolean = false;
   countriesLoop: countriesData[] = [];
 
+  navigateToCompare(): void {
+    this.router.navigate(['/compare'])
+  }
   ngOnInit(): void {
     this.fetchCountries();
   }
@@ -72,9 +69,9 @@ export class DashboardComponent implements OnInit {
 
   getProvincesFromCountry(): void {
     if (this.selectedCountry && this.selectedCountry.iso) {
-      this.covidApiService.getProvincesFromCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
+      this.covidApiService.getProvincesFromCountry(this.selectedCountry.iso).subscribe(
         (response) => {
-          this.provincesFromCountry = response.data;
+          this.provincesFromCountry = response;
           console.log('Provinces: ', this.provincesFromCountry);
         },
         (error) => {
@@ -84,4 +81,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  toggleVerticalBarChart() {
+
+    this.showVerticalBarChart = !this.showVerticalBarChart;
+
+  }
+
+  toggleStackedAreaChart() {
+
+    this.showStackedAreaChart = !this.showStackedAreaChart;
+
+  }
 }

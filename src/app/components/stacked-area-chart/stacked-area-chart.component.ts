@@ -38,7 +38,7 @@ export class StackedAreaChartComponent implements OnInit {
   }
 
   getCountryDataForYears(): void {
-    const dates = ['2020-03-01', '2021-03-01', '2022-03-01', '2023-03-01'];
+    const dates = ['2019-03-01','2020-03-01', '2021-03-01', '2022-03-01', '2023-03-01'];
     console.log('Fetching data for dates:', dates);
 
     if (this.displayMode === 'dashboard' && this.selectedCountry && this.selectedCountry.iso) {
@@ -52,14 +52,14 @@ export class StackedAreaChartComponent implements OnInit {
               name: 'Deaths',
               series: responses.map((response, index) => ({
                 name: dates[index].split('-')[0],
-                value: response.data.deaths
+                value: response.data.deaths ?? 0
               }))
             },
             {
               name: 'Confirmed',
               series: responses.map((response, index) => ({
                 name: dates[index].split('-')[0],
-                value: response.data.confirmed
+                value: response.data.confirmed ?? 0
               }))
             }
           ];
@@ -86,7 +86,7 @@ export class StackedAreaChartComponent implements OnInit {
               console.log(`Processing response for ${country.name} on ${dates[dateIndex]}:`, response);
               return {
                 name: dates[dateIndex].split('-')[0],
-                value: response.data.confirmed
+                value: response.data.confirmed ?? 0
               };
             })
           }));
