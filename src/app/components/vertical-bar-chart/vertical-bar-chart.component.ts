@@ -40,7 +40,7 @@ export class VerticalBarChartComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['compareCountries']) {
-      this.componentData = [...changes['compareCountries'].currentValue];
+      this.getSingleCountry();
     }
   }
 

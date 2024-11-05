@@ -30,35 +30,35 @@
           </mat-form-field>
             <!-- <label for="Date"><h3>Select a date</h3></label>
             <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/> -->
-
-          <div>
-            <div class="inputRow">
-              <label class="container">
-                <input checked="checked" type="checkbox" name="verticalBarChart" [(ngModel)]="showVerticalBarChart">
-                <div class="checkmark"></div>
-              </label>
-              <label for="verticalBarChart"><p>Vertical bar chart</p></label>
+            <div>
+              <div class="inputRow">
+                <mat-checkbox
+                  [checked]="showVerticalBarChart"
+                  (change)="toggleVerticalBarChart()"
+                >
+                  Vertical bar chart
+                </mat-checkbox>
+              </div>
+              <div class="inputRow">
+                <mat-checkbox
+                  [checked]="showStackedAreaChart"
+                  (change)="toggleStackedAreaChart()"
+                >
+                  Stacked area chart
+                </mat-checkbox>
+              </div>
             </div>
-
-            <div class="inputRow">
-              <label class="container">
-                <input checked="checked" type="checkbox" name="stackedAreaChart" [(ngModel)]="showStackedAreaChart" [disabled]="!selectedCountry">
-                <div class="checkmark"></div>
-              </label>
-              <label for="stackedAreaChart"><p>Stacked area chart</p></label>
-            </div>
-
           </div>
-        </div>
       </mat-card-content>
     </mat-card>
-
   </aside>
+
   <div *ngIf="!selectedCountry" class="noCountrySelectedSection">
     <h2>Select a country to begin</h2>
   </div>
+
   <section *ngIf="singleCountry">
-    <mat-card >
+    <mat-card>
       <h1>{{selectedCountry.name}} data:</h1>
       <div class="example-button-row">
         <button mat-stroked-button (click)="getProvincesFromCountry()">Provinces</button>
@@ -67,34 +67,35 @@
     </mat-card>
     <div class="dataContainer" *ngIf="singleCountry.confirmed > 0">
       <div class="flexRow ">
-
           <mat-card>
           <div>Confirmed cases:</div>
           <h2>{{ singleCountry.confirmed }}</h2>
         </mat-card>
-
         <mat-card>
           <div>Confirmed deaths:</div>
           <h2>{{ singleCountry.deaths }}</h2>
+        </mat-card>
+        <mat-card>
+          <div>Fatality rate:</div>
+          <h2>{{ singleCountry.fatality_rate * 100 | number: '1.2-2' }}%</h2>
         </mat-card>
       </div>
     </div>
     <div *ngIf="!singleCountry.confirmed">
       <h2>No data available for {{ selectedCountry.name }}</h2>
     </div>
-
     <div *ngIf="showVerticalBarChart">
       <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
     </div>
     <div *ngIf="showStackedAreaChart">
-      <app-stacked-area-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'" ></app-stacked-area-chart>
+      <app-stacked-area-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-stacked-area-chart>
     </div>
     <div class="provinceContainer">
       <div *ngFor="let province of provincesFromCountry">
         <span *ngIf="province; else noProvince">
-          <div class="provinceBox">
+          <mat-card>
             {{ province.province }}
-          </div>
+          </mat-card>
         </span>
         <ng-template #noProvince>
           <span><p>No province data available for this country</p></span>

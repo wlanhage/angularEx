@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +22,12 @@ export class CovidapiService {
     return this.http.get(url);
   }
 
-  getProvincesFromCountry(iso: string, date?:string): Observable<any> {
+  getProvincesFromCountry(iso: string): Observable<any> {
     let url = `https://covid-api.com/api/provinces/${iso}?per_page=100`;
-    if (date) {
-      url += `&date=${date}`;
-    }
-    console.log(this.http.get(url))
-    return this.http.get(url);
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response.data.filter((province: any) => province.province && province.province.trim() !== '');
+      })
+    );
   }
 }
