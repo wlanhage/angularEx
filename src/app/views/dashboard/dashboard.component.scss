@@ -17,6 +17,10 @@ main {
 
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+  }
 }
 
 aside {
@@ -30,7 +34,10 @@ aside {
   padding-right: 12px;
   width: 20%;
 
-  // box-shadow: 10px 10px 5px lightblue;
+  @media (max-width: 1000px) {
+    display: none;
+  }
+
 }
 
 .asideTitleBox {
@@ -52,6 +59,12 @@ section {
   padding-bottom: 24px;
 
   width: 80%;
+
+  @media (max-width: 1000px) {
+    width: 92%;
+    padding: 0px;
+    margin: auto;
+  }
 }
 
 .countryTitleBox {
@@ -99,9 +112,30 @@ section {
 mat-card {
   width: 100%;
   height: auto;
+}
 
-  padding: 28px;
+.marginTop {
   margin-top: 28px;
+}
+
+.marginBot {
+  margin-bottom: 28px;
+}
+
+.paddingBox {
+  padding: 28px;
+}
+
+mat-card-header {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-tab {
+  width: 80%;
 }
 
 
@@ -151,4 +185,20 @@ mat-card {
   font-size: 40px;
   color: gray;
   opacity: 50%;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.phoneHeader {
+  display: none;
+
+
+  @media (max-width: 1000px) {
+    display: block;
+  }
 }

@@ -1,11 +1,16 @@
 th {
-  padding: 0 72px;
+  padding: 0 22px;
+
+  @media (max-width: 1000px) {
+    padding: 0 16px;
+  }
 }
 
 td {
   padding: 0 72px;
+
+  @media (max-width: 1000px) {
+    padding: 0 16px;
+  }
 }
 
-@media screen {
-
-}

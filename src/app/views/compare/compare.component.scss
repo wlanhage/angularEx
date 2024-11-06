@@ -11,13 +11,17 @@ main {
   display: flex;
   flex-direction: row;
   position: relative;
-  overflow-y: auto; /* Enable vertical scrolling */
-  z-index: 1; /* Ensure content is above the background */
+  overflow-y: auto;
+  z-index: 1;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+  }
 }
 
 main::before {
   content: '';
-  position: fixed; /* Fix the background image */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -27,7 +31,7 @@ main::before {
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.3;
-  z-index: -1; /* Ensure the background is behind the content */
+  z-index: -1;
 }
 
 aside {
@@ -40,26 +44,10 @@ aside {
   width: 20%;
   height: auto;
 
+  @media (max-width: 1000px) {
+    display: none;
+  }
 
-}
-.inputRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 14px;
-  width: 94%;
-  font-size: 17px;
-
-  border: 2px solid black;
-  border-radius: 10px;
-
-  padding: 6px;
-}
-
-button {
-  color: black !important;
-  border-color: black !important;
 }
 
 section {
@@ -70,6 +58,10 @@ section {
   margin-top: 20px;
 
   width: 80%;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
 }
 
 .basicDataContainer {
@@ -102,7 +94,33 @@ mat-card {
 
 }
 
+mat-card-header {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
 .topMargin20 {
   margin-top: 20px;
   margin-bottom: 100px;
+}
+
+
+.phoneHeader {
+  display: none;
+
+  @media (max-width: 1000px) {
+    display: block;
+  }
+}
+
+
+
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

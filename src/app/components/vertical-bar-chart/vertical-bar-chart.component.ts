@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges, HostListener } from '@angular/core';
 import { Color, ScaleType, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CommonModule } from '@angular/common';
 import { CovidapiService } from '../../services/covidapi.service';
@@ -30,8 +30,12 @@ export class VerticalBarChartComponent implements OnInit {
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
   @Input() compareCountries: any[] = [];
   componentData: any[] = [];
+  view: [number, number] = [1000, 400];
 
-  constructor(private covidApiService: CovidapiService) {}
+  constructor(
+    private covidApiService: CovidapiService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getSingleCountry();
@@ -42,6 +46,18 @@ export class VerticalBarChartComponent implements OnInit {
     if (changes['compareCountries']) {
       this.getSingleCountry();
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateChartSize();
+  }
+
+  updateChartSize(): void {
+    const width = window.innerWidth * 0.7;
+    const height = window.innerHeight * 0.4;
+    this.view = [width, height];
+    this.cdr.detectChanges();
   }
 
   getSingleCountry(): void {
