@@ -9,7 +9,10 @@ import { VerticalBarChartComponent } from "../../components/vertical-bar-chart/v
 import { TableComponentComponent } from '../../components/table-component/table-component.component';
 import { HomebuttonComponent } from '../../components/homebutton/homebutton.component';
 import { HelperService } from '../../services/helper/helper.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-compare',
@@ -31,11 +34,18 @@ export class CompareComponent implements OnInit {
   constructor(
     private covidApiService: CovidapiService,
     private helperService: HelperService,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
     this.fetchCountries();
+    const state = this.location.getState() as { [key: string]: any };
+    if (state && state['selectedCountry']) {
+      this.selectedCountries.push(state['selectedCountry'])
+    }
+    console.log(this.selectedCountries, 'valda länder <');
   }
+  // INTE KLAR ^^^^^^^^^
 
   fetchCountries(): void {
     this.covidApiService.getCountries().subscribe(
@@ -65,14 +75,6 @@ export class CompareComponent implements OnInit {
     }
     catch (error) {
       this.helperService.showError('Error occured when trying to add country')
-    }
-  }
-
-  toggleCharts(): void {
-    if (!this.selectedCountries.length) {
-      this.helperService.showError('Pick country first');
-      this.showVerticalBarChart = false;
-      this.showStackedAreaChart = false;
     }
   }
 

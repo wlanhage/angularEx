@@ -12,7 +12,7 @@
       <mat-card-content>
         <mat-form-field>
           <mat-label>Choose country</mat-label>
-          <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()">
+          <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()" matTooltip="Select a country to display its data">
             <mat-option *ngFor="let country of countries" [value]="country">
               {{ country.name }}
             </mat-option>
@@ -21,7 +21,7 @@
 
         <div *ngIf="selectedCountry">
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" matTooltip="Select a specific date see data until that day">
             <mat-label>Select a date</mat-label>
             <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="getSingleCountry()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -30,24 +30,6 @@
           </mat-form-field>
             <!-- <label for="Date"><h3>Select a date</h3></label>
             <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/> -->
-            <div>
-              <div class="inputRow">
-                <mat-checkbox
-                  [checked]="showVerticalBarChart"
-                  (change)="toggleVerticalBarChart()"
-                >
-                  Vertical bar chart
-                </mat-checkbox>
-              </div>
-              <div class="inputRow">
-                <mat-checkbox
-                  [checked]="showStackedAreaChart"
-                  (change)="toggleStackedAreaChart()"
-                >
-                  Stacked area chart
-                </mat-checkbox>
-              </div>
-            </div>
           </div>
       </mat-card-content>
     </mat-card>
@@ -58,24 +40,24 @@
   </div>
 
   <section *ngIf="singleCountry">
-    <mat-card>
+    <mat-card appearance="outlined">
       <h1>{{selectedCountry.name}} data:</h1>
       <div class="example-button-row">
-        <button mat-stroked-button (click)="getProvincesFromCountry()">Provinces</button>
-        <button mat-stroked-button (click)="navigateToCompare()">Compare</button>
+        <button mat-stroked-button (click)="getProvincesFromCountry()" matTooltip="Display {{selectedCountry.name}}'s provinces">Provinces</button>
+        <button mat-stroked-button (click)="navigateToCompare()" matTooltip="Compare {{selectedCountry.name}}'s data with other countries">Compare</button>
       </div>
     </mat-card>
     <div class="dataContainer" *ngIf="singleCountry.confirmed > 0">
       <div class="flexRow ">
-          <mat-card>
+          <mat-card appearance="outlined">
           <div>Confirmed cases:</div>
           <h2>{{ singleCountry.confirmed }}</h2>
         </mat-card>
-        <mat-card>
+        <mat-card appearance="outlined">
           <div>Confirmed deaths:</div>
           <h2>{{ singleCountry.deaths }}</h2>
         </mat-card>
-        <mat-card>
+        <mat-card appearance="outlined">
           <div>Fatality rate:</div>
           <h2>{{ singleCountry.fatality_rate * 100 | number: '1.2-2' }}%</h2>
         </mat-card>
@@ -84,16 +66,21 @@
     <div *ngIf="!singleCountry.confirmed">
       <h2>No data available for {{ selectedCountry.name }}</h2>
     </div>
-    <div *ngIf="showVerticalBarChart">
-      <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
-    </div>
-    <div *ngIf="showStackedAreaChart">
-      <app-stacked-area-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-stacked-area-chart>
-    </div>
+
+    <mat-card appearance="outlined">
+      <mat-tab-group>
+        <mat-tab label="Bar chart">
+          <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
+        </mat-tab>
+        <mat-tab label="Area chart">
+          <app-stacked-area-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-stacked-area-chart>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
     <div class="provinceContainer">
       <div *ngFor="let province of provincesFromCountry">
         <span *ngIf="province; else noProvince">
-          <mat-card>
+          <mat-card appearance="outlined">
             {{ province.province }}
           </mat-card>
         </span>
