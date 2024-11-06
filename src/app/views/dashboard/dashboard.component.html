@@ -1,4 +1,19 @@
 <main>
+  <mat-card class="phoneHeader">
+    <mat-card-content>
+      <div class="flexRow">
+      <mat-form-field>
+        <mat-label>Choose country</mat-label>
+        <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()" matTooltip="Select a country to display its data">
+          <mat-option *ngFor="let country of countries" [value]="country">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-homebutton />
+    </div>
+    </mat-card-content>
+  </mat-card>
   <aside>
     <mat-card appearance="outlined">
       <mat-card-header>
@@ -33,6 +48,7 @@
           </div>
       </mat-card-content>
     </mat-card>
+
   </aside>
 
   <div *ngIf="!selectedCountry" class="noCountrySelectedSection">
@@ -40,7 +56,7 @@
   </div>
 
   <section *ngIf="singleCountry">
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="paddingBox">
       <h1>{{selectedCountry.name}} data:</h1>
       <div class="example-button-row">
         <button mat-stroked-button (click)="getProvincesFromCountry()" matTooltip="Display {{selectedCountry.name}}'s provinces">Provinces</button>
@@ -49,15 +65,15 @@
     </mat-card>
     <div class="dataContainer" *ngIf="singleCountry.confirmed > 0">
       <div class="flexRow ">
-          <mat-card appearance="outlined">
+          <mat-card appearance="outlined" class="paddingBox marginTop">
           <div>Confirmed cases:</div>
           <h2>{{ singleCountry.confirmed }}</h2>
         </mat-card>
-        <mat-card appearance="outlined">
+        <mat-card appearance="outlined" class="paddingBox marginTop">
           <div>Confirmed deaths:</div>
           <h2>{{ singleCountry.deaths }}</h2>
         </mat-card>
-        <mat-card appearance="outlined">
+        <mat-card appearance="outlined" class="paddingBox marginTop">
           <div>Fatality rate:</div>
           <h2>{{ singleCountry.fatality_rate * 100 | number: '1.2-2' }}%</h2>
         </mat-card>
@@ -67,7 +83,7 @@
       <h2>No data available for {{ selectedCountry.name }}</h2>
     </div>
 
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="paddingBox marginTop marginBot">
       <mat-tab-group>
         <mat-tab label="Bar chart">
           <app-vertical-bar-chart [selectedCountry]="selectedCountry" [selectedDate]="selectedDate" [displayMode]="'dashboard'"></app-vertical-bar-chart>
@@ -80,7 +96,7 @@
     <div class="provinceContainer">
       <div *ngFor="let province of provincesFromCountry">
         <span *ngIf="province; else noProvince">
-          <mat-card appearance="outlined">
+          <mat-card appearance="outlined" class="paddingBox">
             {{ province.province }}
           </mat-card>
         </span>

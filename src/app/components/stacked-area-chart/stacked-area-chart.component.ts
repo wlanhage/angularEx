@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { Color, ScaleType, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CommonModule } from '@angular/common';
 import { CovidapiService } from '../../services/covidapi.service';
@@ -12,16 +12,34 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./stacked-area-chart.component.scss']
 })
 export class StackedAreaChartComponent implements OnInit {
+  [x: string]: any;
   @Input() selectedCountry: any;
   @Input() selectedDate: any;
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
   @Input() compareCountries: any[] = [];
   componentData: any[] = [];
+  view: [number, number] = [1000, 400];
 
-  constructor(private covidApiService: CovidapiService) {}
+  constructor(
+    private covidApiService: CovidapiService,
+    private cdr: ChangeDetectorRef
+
+  ) {}
 
   ngOnInit(): void {
     this.getCountryDataForYears();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateChartSize();
+  }
+
+  updateChartSize(): void {
+    const width = window.innerWidth * 0.7;
+    const height = window.innerHeight * 0.4;
+    this.view = [width, height];
+    this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
