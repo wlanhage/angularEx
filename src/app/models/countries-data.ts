@@ -3,4 +3,5 @@ export interface countriesData {
   iso:string;
   confirmed?: number;
   deaths?: number;
+  fatality_rate?:number;
 }

@@ -1,9 +1,33 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 main {
   width: 100vw;
-  height: auto;
-
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
+  position: relative;
+  overflow-y: auto; /* Enable vertical scrolling */
+  z-index: 1; /* Ensure content is above the background */
+}
+
+main::before {
+  content: '';
+  position: fixed; /* Fix the background image */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url('/earth_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: -1; /* Ensure the background is behind the content */
 }
 
 aside {
@@ -12,11 +36,11 @@ aside {
 
   flex-direction: column;
 
-  padding: 10px;
+  padding: 20px;
   width: 20%;
-  height: 100vh;
+  height: auto;
 
-  box-shadow: 10px 10px 5px lightblue;
+
 }
 .inputRow {
   display: flex;
@@ -24,7 +48,7 @@ aside {
   justify-content: space-between;
   align-items: center;
   margin-top: 14px;
-  width: 96%;
+  width: 94%;
   font-size: 17px;
 
   border: 2px solid black;
@@ -42,10 +66,10 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  margin-top: 20px;
 
   width: 80%;
-  margin-top: 30px;
 }
 
 .basicDataContainer {
@@ -70,13 +94,15 @@ section {
   height: 100vh;
 }
 
-.basicDataContainer {
-padding: 50px;
 
-}
 
 mat-card {
   max-width: 100%;
-  min-height: 40%;
+  /* min-height: 40%; */
 
+}
+
+.topMargin20 {
+  margin-top: 20px;
+  margin-bottom: 100px;
 }

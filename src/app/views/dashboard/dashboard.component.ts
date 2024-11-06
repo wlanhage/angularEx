@@ -29,15 +29,16 @@ export class DashboardComponent implements OnInit {
   selectedDate: any;
   provincesFromCountry: any[] = [];
   componentData: any[] = [];
-  showVerticalBarChart: boolean = false;
-  showStackedAreaChart: boolean = false;
   countriesLoop: countriesData[] = [];
 
-  navigateToCompare(): void {
-    this.router.navigate(['/compare'])
-  }
   ngOnInit(): void {
     this.fetchCountries();
+  }
+
+  navigateToCompare(): void {
+    this.getSingleCountry();
+    console.log('Navigating to compare with selectedCountry:', this.selectedCountry);
+    this.router.navigate(['/compare'], { state: { selectedCountry: this.selectedCountry }})
   }
 
   fetchCountries(): void {
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit {
       this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
         (response) => {
           this.singleCountry = response.data;
+          this.selectedCountry = { ...this.selectedCountry, ...response.data }; // Mergea datan för att skicka med confirmed och deaths till compare
           console.log(this.singleCountry);
         },
         (error) => {
@@ -79,17 +81,5 @@ export class DashboardComponent implements OnInit {
         }
       );
     }
-  }
-
-  toggleVerticalBarChart() {
-
-    this.showVerticalBarChart = !this.showVerticalBarChart;
-
-  }
-
-  toggleStackedAreaChart() {
-
-    this.showStackedAreaChart = !this.showStackedAreaChart;
-
   }
 }
