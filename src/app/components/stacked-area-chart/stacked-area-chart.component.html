@@ -1,11 +1,11 @@
 <ngx-charts-area-chart-stacked
   [view]="view"
   [results]="componentData"
-  [xAxis]="true"
-  [yAxis]="true"
-  [legend]="true"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
+  [showXAxisLabel]="showXAxis"
+  [showYAxisLabel]="showYAxis"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
   [legendTitle]="'Countries'"
   [timeline]="true"
   >

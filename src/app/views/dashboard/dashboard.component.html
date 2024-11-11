@@ -14,6 +14,7 @@
     </div>
     </mat-card-content>
   </mat-card>
+
   <aside>
     <mat-card appearance="outlined">
       <mat-card-header>
@@ -38,14 +39,13 @@
 
           <mat-form-field appearance="fill" matTooltip="Select a specific date see data until that day">
             <mat-label>Select a date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="getSingleCountry()">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="getSingleCountryWithDate()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-            <!-- <label for="Date"><h3>Select a date</h3></label>
-            <input type="date" name="Date" [(ngModel)]="selectedDate" (change)="getSingleCountry()"/> -->
-          </div>
+
+        </div>
       </mat-card-content>
     </mat-card>
 

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../material.module';
+import { NumbersCardChartComponent } from '../../components/numbers-card-chart/numbers-card-chart.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, NumbersCardChartComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss', '../../styleElements/styleElements.scss']
 })

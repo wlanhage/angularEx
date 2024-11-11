@@ -1,16 +1,20 @@
 th {
-  padding: 0 22px;
+  padding: 0 0px;
+  text-align: center;
 
   @media (max-width: 1000px) {
-    padding: 0 16px;
+    padding: 0 15px;
   }
 }
 
 td {
-  padding: 0 72px;
+  padding: 0 0px;
+  text-align: center;
 
   @media (max-width: 1000px) {
-    padding: 0 16px;
+    padding: 0 15px;
   }
 }
+
+
 

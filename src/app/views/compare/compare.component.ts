@@ -103,18 +103,6 @@ export class CompareComponent implements OnInit {
   // ser Angular en "ny" array, som utlöser förändringsdetektering,
   // vilket hjälper VerticalBarChartComponent att ta emot uppdaterad data.
 
-  toggleVerticalBarChart() {
-
-    this.showVerticalBarChart = !this.showVerticalBarChart;
-
-  }
-
-  toggleStackedAreaChart() {
-
-    this.showStackedAreaChart = !this.showStackedAreaChart;
-
-  }
-
 }
 
 
