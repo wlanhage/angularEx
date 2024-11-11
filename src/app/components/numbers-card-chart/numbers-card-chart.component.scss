@@ -1,0 +1,19 @@
+main {
+  height: 170px;
+  overflow: hidden;
+}
+
+section {
+  display: inline-block;
+
+  animation: scroll 160s linear;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

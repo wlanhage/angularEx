@@ -18,7 +18,10 @@ export class StackedAreaChartComponent implements OnInit {
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
   @Input() compareCountries: any[] = [];
   componentData: any[] = [];
-  view: [number, number] = [1000, 400];
+  view: [number, number] = [1000, 500];
+  showLegend: boolean = true;
+  showYAxis: boolean = true;
+  showXAxis: boolean = true;
 
   constructor(
     private covidApiService: CovidapiService,
@@ -37,8 +40,11 @@ export class StackedAreaChartComponent implements OnInit {
 
   updateChartSize(): void {
     const width = window.innerWidth * 0.7;
-    const height = window.innerHeight * 0.4;
+    const height = window.innerHeight * 0.7;
     this.view = [width, height];
+    this.showLegend = window.innerWidth > 768;
+    this.showYAxis = window.innerWidth > 768;
+    this.showXAxis = window.innerWidth > 768;
     this.cdr.detectChanges();
   }
 
@@ -61,7 +67,7 @@ export class StackedAreaChartComponent implements OnInit {
 
     if (this.displayMode === 'dashboard' && this.selectedCountry && this.selectedCountry.iso) {
       console.log('Dashboard mode: Fetching data for country:', this.selectedCountry);
-      const requests = dates.map(date => this.covidApiService.getSingleCountry(this.selectedCountry.iso, date));
+      const requests = dates.map(date => this.covidApiService.getSingleCountryWithDate(this.selectedCountry.iso, date));
       forkJoin(requests).subscribe(
         (responses) => {
           console.log('Responses for dashboard mode:', responses);
@@ -90,7 +96,7 @@ export class StackedAreaChartComponent implements OnInit {
     } else if (this.displayMode === 'compare' && this.compareCountries.length > 0) {
       console.log('Compare mode: Fetching data for countries:', this.compareCountries);
       const requests = this.compareCountries.map(country => {
-        return dates.map(date => this.covidApiService.getSingleCountry(country.iso, date));
+        return dates.map(date => this.covidApiService.getSingleCountryWithDate(country.iso, date));
       }).flat();
 
 

@@ -14,11 +14,18 @@ export class CovidapiService {
     return this.http.get(this.countriesUrl)
   }
 
-  getSingleCountry(iso: string, date?: string): Observable<any> {
+  getProvincesData(): Observable<any> {
+    let url = `https://covid-api.com/api/reports`;
+    return this.http.get(url);
+  }
+
+  getSingleCountry(iso: string): Observable<any> {
     let url = `https://covid-api.com/api/reports/total?iso=${iso}`;
-    if (date) {
-      url += `&date=${date}`;
-    }
+    return this.http.get(url);
+  }
+
+  getSingleCountryWithDate(iso: string, date:string): Observable<any> {
+    let url = `https://covid-api.com/api/reports/total?iso=${iso}&date=${date}`
     return this.http.get(url);
   }
 

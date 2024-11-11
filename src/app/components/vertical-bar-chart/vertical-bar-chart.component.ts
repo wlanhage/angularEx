@@ -31,6 +31,9 @@ export class VerticalBarChartComponent implements OnInit {
   @Input() compareCountries: any[] = [];
   componentData: any[] = [];
   view: [number, number] = [1000, 400];
+  showLegend: boolean = true;
+  showYAxis: boolean = true;
+  showXAxis: boolean = true;
 
   constructor(
     private covidApiService: CovidapiService,
@@ -39,6 +42,7 @@ export class VerticalBarChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSingleCountry();
+    this.updateChartSize();
     console.log('VerticalBarChartComponent initialized with data:', this.compareCountries);
   }
 
@@ -51,18 +55,22 @@ export class VerticalBarChartComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.updateChartSize();
+
   }
 
   updateChartSize(): void {
     const width = window.innerWidth * 0.7;
-    const height = window.innerHeight * 0.4;
+    const height = window.innerHeight * 0.7;
     this.view = [width, height];
+    this.showLegend = window.innerWidth > 768;
+    this.showYAxis = window.innerWidth > 768;
+    this.showXAxis = window.innerWidth > 768;
     this.cdr.detectChanges();
   }
 
   getSingleCountry(): void {
     if (this.displayMode === 'dashboard' && this.selectedCountry && this.selectedCountry.iso) {
-      this.covidApiService.getSingleCountry(this.selectedCountry.iso, this.selectedDate).subscribe(
+      this.covidApiService.getSingleCountry(this.selectedCountry.iso).subscribe(
         (response) => {
           const singleCountry = response.data;
           this.componentData = [

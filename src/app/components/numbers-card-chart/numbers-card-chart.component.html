@@ -1,0 +1,10 @@
+<main *ngIf="dataLoaded">
+  <section>
+    <ngx-charts-number-card
+      [view]="view"
+      [results]="randomCountries"
+      [cardColor]="cardColor"
+      (select)="onSelect($event)">
+    </ngx-charts-number-card>
+  </section>
+</main>
