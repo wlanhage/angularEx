@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VerticalBarChartComponent } from '../../components/vertical-bar-chart/vertical-bar-chart.component';
-import {NumbersCardChartComponent} from '../../components/numbers-card-chart/numbers-card-chart.component';
+import { LoaderComponent } from '../../components/loader/loader.component';
+
 
 @Component({
   selector: 'app-testpage',
   standalone: true,
-  imports: [CommonModule, VerticalBarChartComponent, NumbersCardChartComponent],
+  imports: [CommonModule, LoaderComponent, ],
   templateUrl: './testpage.component.html',
   styleUrl: './testpage.component.scss'
 })

@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,8 +18,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     BrowserAnimationsModule,
     provideAnimationsAsync(),
-    provideNativeDateAdapter()
-
+    provideNativeDateAdapter(),
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
 
   ]
 };

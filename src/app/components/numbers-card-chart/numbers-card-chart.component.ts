@@ -14,7 +14,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class NumbersCardChartComponent implements OnInit {
   randomCountries: any[] = [];
-  view: [number, number] = [6000, 150]; // Adjust for a horizontal layout
+  view: [number, number] = [6000, 150];
   cardColor: string = '#232837';
   dataLoaded: boolean = false;
 
@@ -27,8 +27,6 @@ export class NumbersCardChartComponent implements OnInit {
   loadData(): void {
     this.covidApiService.getCountries().subscribe(
       (response) => {
-        console.log('API response:', response);
-
 
         const allCountries = response.data.map((country: any) => ({
           name: country.name, // Hämta alla countries
