@@ -19,6 +19,7 @@
     </div>
     </mat-card-content>
   </mat-card>
+
   <aside>
   <mat-card appearance="outlined">
     <mat-card-header>
@@ -43,6 +44,30 @@
     <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
     </mat-card-content>
   </mat-card>
+
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Compare Countries</h1>
+      </mat-card-title>
+      <app-homebutton />
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field matTooltip="Select countries to compare their data">
+        <mat-label>Select data</mat-label>
+        <mat-select [(ngModel)]="countryToAdd" onchange="">
+          <mat-option value="confirmed">Confirmed</mat-option>
+          <mat-option value="deaths">Deaths</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-content>
+    <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
+    </mat-card-content>
+  </mat-card>
+
 </aside>
   <section>
     <mat-card appearance="outlined">

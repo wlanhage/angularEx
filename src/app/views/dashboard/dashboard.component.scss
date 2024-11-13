@@ -118,6 +118,12 @@ mat-card {
   margin-top: 28px;
 }
 
+.marginTopPhone {
+  @media (max-width: 1000px) {
+    margin-top: 28px;
+  }
+}
+
 .marginBot {
   margin-bottom: 28px;
 }
@@ -142,8 +148,8 @@ mat-tab {
 .provinceContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  width: 95%;
+  gap: 5%;
+  width: 100%;
 
   @media (max-width: 1300px) {
     grid-template-columns: repeat(3, 1fr);

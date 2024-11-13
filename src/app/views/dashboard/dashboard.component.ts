@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 import { CovidapiService } from '../../services/covidapi.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VerticalBarChartComponent } from '../../components/vertical-bar-chart/vertical-bar-chart.component';
 import { StackedAreaChartComponent } from "../../components/stacked-area-chart/stacked-area-chart.component";
+import { PieGridComponent } from '../../components/pie-grid/pie-grid.component'
 import { HomebuttonComponent } from '../../components/homebutton/homebutton.component';
 import { MaterialModule } from '../../material.module';
 import { countriesData } from '../../models/countries-data';
@@ -14,7 +15,7 @@ import { HelperService } from '../../services/helper/helper.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, HomebuttonComponent, MaterialModule],
+  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, PieGridComponent, HomebuttonComponent, MaterialModule],
   providers: [DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss', /* '../../styleElements/styleElements.scss' */]
@@ -31,18 +32,51 @@ export class DashboardComponent implements OnInit {
   singleCountry: any;
   selectedCountry: any;
   selectedDate: any;
-  provincesFromCountry: any[] = [];
+
   componentData: any[] = [];
   countriesLoop: countriesData[] = [];
+  countryData: any;
+
+  provinceData: any[] = [];
+  selectedProvinceAmount: number = 8;
+  provinceConfirmedData: any[] = [];
+  provinceDeathsData: any[] = [];
+  selectedDataType: string = 'confirmed';
+
+  showProvinces = false;
+
+  displayedColumns: string[] = ['position', 'name', 'confirmed', 'deaths', 'death-rate'];
 
   ngOnInit(): void {
     this.fetchCountries();
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.countryData = navigation.extras.state['countryData'];
+      console.log('Received country data from home:', this.countryData);
+      if (this.countryData) {
+        this.selectedCountry = this.countryData;
+        this.getSingleCountry();
+      }
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedCountry'] && !changes['selectedCountry'].firstChange) {
+      this.getProvinceData();
+    }
   }
 
   navigateToCompare(): void {
     this.getSingleCountry();
     console.log('Navigating to compare with selectedCountry:', this.selectedCountry);
     this.router.navigate(['/compare'], { state: { selectedCountry: this.selectedCountry }})
+  }
+
+  toggleProvinces () {
+    this.showProvinces = !this.showProvinces;
+    if (this.showProvinces) {
+      this.getProvinceData();
+    }
   }
 
   fetchCountries(): void {
@@ -92,18 +126,38 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getProvincesFromCountry(): void {
+  getProvinceData(provinceAmount?: number): void {
+    const amount = provinceAmount || this.selectedProvinceAmount;
     if (this.selectedCountry && this.selectedCountry.iso) {
-      this.covidApiService.getProvincesFromCountry(this.selectedCountry.iso).subscribe(
+      this.covidApiService.getProvinceData(this.selectedCountry.iso).subscribe(
         (response) => {
-          this.provincesFromCountry = response;
-          console.log('Provinces: ', this.provincesFromCountry);
+          const sortedConfirmedProvinces = response.data.sort((a: any, b: any) => b.confirmed - a.confirmed);
+        this.provinceConfirmedData = sortedConfirmedProvinces.slice(0, amount);
+
+        const sortedDeathsProvinces = response.data.sort((a: any, b: any) => b.deaths - a.deaths);
+        this.provinceDeathsData = sortedDeathsProvinces.slice(0, amount);
+
+        // Initiera data
+        this.provinceData = this.provinceConfirmedData;
+
         },
         (error) => {
-          console.error('Error fetching country', error);
+          console.error('Error fetching provinces data', error);
         }
       );
+    } else {
+      console.error('No country selected');
     }
   }
+
+  updateProvinceData(): void {
+    if (this.selectedDataType === 'confirmed') {
+      this.provinceData = this.provinceConfirmedData;
+    } else if (this.selectedDataType === 'deaths') {
+      this.provinceData = this.provinceDeathsData;
+    }
+  }
+
+
 
 }

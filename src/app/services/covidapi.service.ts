@@ -29,12 +29,17 @@ export class CovidapiService {
     return this.http.get(url);
   }
 
-  getProvincesFromCountry(iso: string): Observable<any> {
+  getProvinceData(iso: string): Observable<any> {
+    let url = `https://covid-api.com/api/reports?&iso=${iso}`;
+    return this.http.get(url);
+  }
+
+  /* getProvincesFromCountry(iso: string): Observable<any> {
     let url = `https://covid-api.com/api/provinces/${iso}?per_page=100`;
     return this.http.get(url).pipe(
       map((response: any) => {
         return response.data.filter((province: any) => province.province && province.province.trim() !== '');
       })
     );
-  }
+  } */
 }

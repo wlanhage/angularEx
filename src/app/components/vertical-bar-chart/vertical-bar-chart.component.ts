@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CovidapiService } from '../../services/covidapi.service';
 import { forkJoin } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { countriesData } from '../../models/countries-data';
 
 @Component({
   selector: 'app-vertical-bar-chart',

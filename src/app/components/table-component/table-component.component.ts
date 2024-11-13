@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 import { CovidapiService } from '../../services/covidapi.service';
 import { CommonModule } from '@angular/common';
+import { countriesData } from '../../models/countries-data';
 
 @Component({
   selector: 'app-table-component',

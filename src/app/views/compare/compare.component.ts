@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-compare',
   standalone: true,
@@ -24,11 +25,13 @@ import { Location } from '@angular/common';
 })
 export class CompareComponent implements OnInit {
   countries: countriesData[] = [];
-  selectedCountries: any[] = [];
+  selectedCountries: countriesData[] = [];
   countryToAdd: countriesData | null = null;
   showVerticalBarChart: boolean = false;
   showStackedAreaChart: boolean = false;
   countriesLoop: countriesData[] = [];
+
+  selectedDataType: string = 'confirmed';
 
 
   constructor(

@@ -4,6 +4,9 @@ import { Color, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CommonModule } from '@angular/common';
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { response } from 'express';
+import { countriesData } from '../../models/countries-data';
 
 @Component({
   selector: 'app-numbers-card-chart',
@@ -13,12 +16,15 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./numbers-card-chart.component.scss']
 })
 export class NumbersCardChartComponent implements OnInit {
-  randomCountries: any[] = [];
+  randomCountries: countriesData[] = [];
   view: [number, number] = [6000, 150];
   cardColor: string = '#232837';
   dataLoaded: boolean = false;
 
-  constructor(private covidApiService: CovidapiService) {}
+  constructor(
+    private covidApiService: CovidapiService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -56,11 +62,11 @@ export class NumbersCardChartComponent implements OnInit {
           (countryResponses: any[]) => {
             this.randomCountries = countryResponses.map((response: any, index: number) => ({
               name: selectedCountries[index].name,
-              value: response.data.confirmed
+              value: response.data.confirmed,
+              iso: selectedCountries[index].iso
             }));
             this.dataLoaded = true;
 
-            console.log('Data for number card chart:', this.randomCountries);
           },
           (error) => {
             console.error('Error fetching detailed country data', error);
@@ -74,6 +80,23 @@ export class NumbersCardChartComponent implements OnInit {
   }
 
   onSelect(event: any): void {
-    console.log(event);
+    const selectedCountry = this.randomCountries.find(country => country.name === event.name);
+    if (selectedCountry) {
+      this.covidApiService.getSingleCountry(selectedCountry.iso).subscribe(
+        (response) => {
+          const countryData = {
+            name: selectedCountry.name,
+            confirmed: response.data.confirmed,
+            deaths: response.data.deaths,
+            iso: selectedCountry.iso,
+          };
+          this.router.navigate(['/dashboard'], { state: { countryData } });
+        },
+        (error) => {
+          console.error('Error fetching country data:', error);
+        }
+      );
+    }
   }
+
 }
