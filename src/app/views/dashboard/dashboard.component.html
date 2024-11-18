@@ -1,32 +1,12 @@
+<app-navbar (asideToggled)="handleAsideToggle($event)"></app-navbar>
 <main>
-  <mat-card class="phoneHeader">
-    <mat-card-content>
+  <aside *ngIf="isAsideOpen">
+    <div class="asideCard">
       <div class="flexRow">
-      <mat-form-field>
-        <mat-label>Choose country</mat-label>
-        <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()" matTooltip="Select a country to display its data">
-          <mat-option *ngFor="let country of countries" [value]="country">
-            {{ country.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <app-homebutton />
-    </div>
-    </mat-card-content>
-  </mat-card>
-
-  <aside>
-    <mat-card >
-      <mat-card-header>
-        <mat-card-title>
-          <h1>Filter your data</h1>
-        </mat-card-title>
-        <mat-card-actions>
-          <app-homebutton />
-        </mat-card-actions>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-form-field>
+        <h1>Filter your data</h1>
+        <app-homebutton />
+      </div>
+        <mat-form-field class="marginTop">
           <mat-label>Choose country</mat-label>
           <mat-select name="countries" id="countries" [(ngModel)]="selectedCountry" (selectionChange)="getSingleCountry()" matTooltip="Select a country to display its data">
             <mat-option *ngFor="let country of countries" [value]="country">
@@ -35,7 +15,7 @@
           </mat-select>
         </mat-form-field>
 
-        <div *ngIf="selectedCountry">
+        <div *ngIf="selectedCountry" class="marginTop">
 
           <mat-form-field appearance="fill" matTooltip="Select a specific date see data until that day">
             <mat-label>Select a date</mat-label>
@@ -46,8 +26,8 @@
           </mat-form-field>
 
         </div>
-      </mat-card-content>
-    </mat-card>
+
+    </div>
 
     <mat-card *ngIf="showProvinces" class="marginTop marginTop">
       <mat-card-header>
@@ -94,15 +74,19 @@
       <div class="flexRow ">
           <mat-card class="paddingBox marginTop">
           <div>Confirmed cases:</div>
-          <h2>{{ singleCountry.confirmed }}</h2>
+          <h2 class="textBlue">{{ singleCountry.confirmed }}</h2>
         </mat-card>
         <mat-card class="paddingBox marginTop">
           <div>Confirmed deaths:</div>
-          <h2>{{ singleCountry.deaths }}</h2>
+          <h2 class="textRed">{{ singleCountry.deaths }}</h2>
+        </mat-card>
+        <mat-card class="paddingBox marginTop">
+          <div>Total recoverys</div>
+          <h2 class="textGreen">{{ singleCountry.recovered }}</h2>
         </mat-card>
         <mat-card class="paddingBox marginTop">
           <div>Fatality rate:</div>
-          <h2>{{ singleCountry.fatality_rate * 100 | number: '1.2-2' }}%</h2>
+          <h2 class="textYellow">{{ singleCountry.fatality_rate * 100 | number: '1.2-2' }}%</h2>
         </mat-card>
       </div>
     </div>
@@ -151,7 +135,7 @@
               </ng-container>
 
               <!-- Death-rate Column -->
-              <ng-container matColumnDef="death-rate">
+              <ng-container matColumnDef="fatality rate">
                 <th mat-header-cell *matHeaderCellDef> Death-rate </th>
                 <td mat-cell *matCellDef="let element"> {{element.fatality_rate * 100 | number: '1.2-2'}}% </td>
               </ng-container>

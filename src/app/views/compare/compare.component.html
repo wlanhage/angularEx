@@ -1,72 +1,30 @@
+<app-navbar></app-navbar>
 <main>
-  <mat-card class="phoneHeader">
-    <mat-card-content>
-      <div class="flexRow">
-
-        <mat-card-content>
-          <mat-form-field matTooltip="Select countries to compare their data">
-            <mat-label>Select country</mat-label>
-            <mat-select name="countries" id="countries" [(ngModel)]="countryToAdd">
-              <mat-option *ngFor="let country of countriesLoop" [value]="country">
-                {{country.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-card-content>
-        <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
-
-      <app-homebutton />
-    </div>
-    </mat-card-content>
-  </mat-card>
-
   <aside>
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>
-        <h1>Compare Countries</h1>
-      </mat-card-title>
-      <app-homebutton />
-    </mat-card-header>
+  <div >
+    <mat-card-title>
+      <h1>Compare Countries</h1>
+    </mat-card-title>
+    <app-homebutton />
 
-    <mat-card-content>
-      <mat-form-field matTooltip="Select countries to compare their data">
-        <mat-label>Select country</mat-label>
-        <mat-select name="countries" id="countries" [(ngModel)]="countryToAdd">
-          <mat-option *ngFor="let country of countriesLoop" [value]="country">
-            {{country.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-
-    <mat-card-content>
+    <mat-form-field matTooltip="Select countries to compare their data">
+      <mat-label>Select country</mat-label>
+      <mat-select name="countries" id="countries" [(ngModel)]="countryToAdd">
+        <mat-option *ngFor="let country of countriesLoop" [value]="country">
+          {{country.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>
-        <h1>Compare Countries</h1>
-      </mat-card-title>
-      <app-homebutton />
-    </mat-card-header>
-
-    <mat-card-content>
-      <mat-form-field matTooltip="Select countries to compare their data">
-        <mat-label>Select data</mat-label>
-        <mat-select [(ngModel)]="countryToAdd" onchange="">
-          <mat-option value="confirmed">Confirmed</mat-option>
-          <mat-option value="deaths">Deaths</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-
-    <mat-card-content>
-    <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
-    </mat-card-content>
-  </mat-card>
+  </div>
+    <h1>Select compare data</h1>
+  <mat-form-field matTooltip="Select countries to compare their data">
+    <mat-label>Select data</mat-label>
+    <mat-select [(ngModel)]="selectedDataType">
+      <mat-option value="confirmed">Confirmed</mat-option>
+      <mat-option value="deaths">Deaths</mat-option>
+    </mat-select>
+  </mat-form-field>
 
 </aside>
   <section>
@@ -83,12 +41,10 @@
     <mat-card *ngIf="selectedCountries.length > 0" class="topMargin20">
       <mat-tab-group>
             <mat-tab label="Bar chart">
-              <app-vertical-bar-chart [compareCountries]="selectedCountries" [displayMode]="'compare'"></app-vertical-bar-chart>
+              <app-vertical-bar-chart [compareCountries]="selectedCountries" [displayMode]="'compare'" [dataType]="selectedDataType"></app-vertical-bar-chart>
             </mat-tab>
-
-
           <mat-tab label="Area chart">
-           <app-stacked-area-chart [compareCountries]="selectedCountries" [displayMode]="'compare'"></app-stacked-area-chart>
+           <app-stacked-area-chart [compareCountries]="selectedCountries" [displayMode]="'compare'" [dataType]="selectedDataType"></app-stacked-area-chart>
           </mat-tab>
 
       </mat-tab-group>

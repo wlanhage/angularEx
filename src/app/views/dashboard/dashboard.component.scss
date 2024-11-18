@@ -13,7 +13,7 @@
 
 main {
   width: 100%;
-  height: 100vh;
+  height: auto;
 
   display: flex;
   flex-direction: row;
@@ -25,7 +25,7 @@ main {
 
 aside {
   display: flex;
-  //justify-content: center;
+  background-color: #fefcff;
 
   flex-direction: column;
 
@@ -33,21 +33,17 @@ aside {
   padding-left: 24px;
   padding-right: 12px;
   width: 20%;
+  position: sticky;
+  top: 0;
+  height: 98vh;
+
+  border-right: rgba(156, 168, 183, 0.55) 2px solid;
 
   @media (max-width: 1000px) {
-    display: none;
+    display: block;
   }
-
 }
 
-.asideTitleBox {
-  display: flex;
-
-  align-items: center;
-  width: 100%;
-
-
-}
 
 section {
   display: flex;
@@ -177,10 +173,6 @@ mat-tab {
   border-radius: 10px;
 }
 
-
-
-
-
 .noCountrySelectedSection {
   display: flex;
   justify-content: center;
@@ -189,8 +181,7 @@ mat-tab {
   width: 80%;
 
   font-size: 40px;
-  color: gray;
-  opacity: 50%;
+  color: rgba(105, 104, 132, 0.354);
 
   @media (max-width: 1000px) {
     width: 100%;
@@ -207,4 +198,20 @@ mat-tab {
   @media (max-width: 1000px) {
     display: block;
   }
+}
+
+.textRed {
+  color: rgb(239, 80, 80);
+}
+
+.textGreen {
+  color: rgb(31, 172, 31);
+}
+
+.textYellow {
+  color: rgb(178, 178, 24);
+}
+
+.textBlue {
+  color: rgb(51, 130, 209);
 }

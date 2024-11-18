@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, SimpleChanges, HostListener, OnChanges } from '@angular/core';
 import { Color, ScaleType, NgxChartsModule } from '@swimlane/ngx-charts';
 import { CommonModule } from '@angular/common';
 import { CovidapiService } from '../../services/covidapi.service';
@@ -25,11 +25,12 @@ import { countriesData } from '../../models/countries-data';
     ])
   ]
 })
-export class VerticalBarChartComponent implements OnInit {
+export class VerticalBarChartComponent implements OnInit, OnChanges {
   @Input() selectedCountry: any;
   @Input() selectedDate: any;
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
   @Input() compareCountries: any[] = [];
+  @Input() dataType: string = 'confirmed';
   componentData: any[] = [];
   view: [number, number] = [1000, 400];
   showLegend: boolean = true;
@@ -48,7 +49,7 @@ export class VerticalBarChartComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['compareCountries']) {
+    if (changes['compareCountries'] || changes['dataType']) {
       this.getSingleCountry();
     }
   }
@@ -56,7 +57,6 @@ export class VerticalBarChartComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.updateChartSize();
-
   }
 
   updateChartSize(): void {
@@ -90,7 +90,7 @@ export class VerticalBarChartComponent implements OnInit {
         (responses) => {
           this.componentData = responses.map((response, index) => ({
             name: this.compareCountries[index].name,
-            value: response.data.confirmed
+            value: this.dataType === 'confirmed' ? response.data.confirmed : response.data.deaths
           }));
           console.log('componentData:', this.componentData);
         },
