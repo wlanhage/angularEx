@@ -1,0 +1,14 @@
+<nav>
+  <div class="navContainer">
+    <mat-icon (click)="navigateTohome()" aria-hidden="false" aria-label="home icon" fontIcon="home" class="iconRight"></mat-icon>
+    <mat-icon (click)="toggleAside()" aria-hidden="false" aria-label="menu icon" fontIcon="menu" class="iconLeft"></mat-icon>
+    <div class="flexRow">
+      <div class="navBox" (click)="navigateToDashboard()">
+        <h2>Dashboard</h2>
+      </div>
+      <div class="navBox" (click)="navigateToCompare()">
+        <h2>Compare</h2>
+      </div>
+    </div>
+  </div>
+</nav>

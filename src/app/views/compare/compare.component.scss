@@ -6,43 +6,32 @@ body, html {
 }
 
 main {
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  height: auto;
+
   display: flex;
   flex-direction: row;
-  position: relative;
-  overflow-y: auto;
-  z-index: 1;
 
   @media (max-width: 1000px) {
     flex-direction: column;
   }
 }
 
-main::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-image: url('/earth_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.3;
-  z-index: -1;
-}
-
 aside {
   display: flex;
-  /* justify-content: center; */
+  background-color: #fefcff;
 
   flex-direction: column;
 
-  padding: 20px;
+  padding-top: 24px;
+  padding-left: 24px;
+  padding-right: 12px;
   width: 20%;
-  height: auto;
+  position: sticky;
+  top: 0;
+  height: 98vh;
+
+  border-right: rgba(156, 168, 183, 0.55) 2px solid;
 
   @media (max-width: 1000px) {
     display: none;
@@ -54,10 +43,11 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: auto;
 
   margin-top: 20px;
 
-  width: 76%;
+  width: 74%;
 
   @media (max-width: 1000px) {
     width: 100%;

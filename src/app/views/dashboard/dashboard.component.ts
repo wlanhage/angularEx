@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges, HostListener,  } from '@angular/core';
 import { CovidapiService } from '../../services/covidapi.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,11 +11,12 @@ import { MaterialModule } from '../../material.module';
 import { countriesData } from '../../models/countries-data';
 import { response } from 'express';
 import { HelperService } from '../../services/helper/helper.service';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, PieGridComponent, HomebuttonComponent, MaterialModule],
+  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, PieGridComponent, HomebuttonComponent, MaterialModule, NavbarComponent],
   providers: [DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss', /* '../../styleElements/styleElements.scss' */]
@@ -27,6 +28,8 @@ export class DashboardComponent implements OnInit {
     private datePipe: DatePipe,
     private helperService: HelperService,
   ) {}
+
+  isAsideOpen = false;
 
   countries: any[] = [];
   singleCountry: any;
@@ -45,10 +48,11 @@ export class DashboardComponent implements OnInit {
 
   showProvinces = false;
 
-  displayedColumns: string[] = ['position', 'name', 'confirmed', 'deaths', 'death-rate'];
+  displayedColumns: string[] = ['position', 'name', 'confirmed', 'deaths', 'fatality rate'];
 
   ngOnInit(): void {
     this.fetchCountries();
+    this.checkWindowSize();
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.countryData = navigation.extras.state['countryData'];
@@ -71,6 +75,25 @@ export class DashboardComponent implements OnInit {
     console.log('Navigating to compare with selectedCountry:', this.selectedCountry);
     this.router.navigate(['/compare'], { state: { selectedCountry: this.selectedCountry }})
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize(): void {
+    if (typeof window !== 'undefined' && window.innerWidth > 1000) {
+      this.isAsideOpen = true;
+      console.log('over 1000');
+    } else {
+      this.isAsideOpen = false;
+    }
+  }
+
+  handleAsideToggle(isOpen: boolean): void {
+    this.isAsideOpen = isOpen;
+  }
+
 
   toggleProvinces () {
     this.showProvinces = !this.showProvinces;
@@ -112,9 +135,10 @@ export class DashboardComponent implements OnInit {
       if (formattedDate) {
       this.covidApiService.getSingleCountryWithDate(this.selectedCountry.iso, formattedDate).subscribe(
         (response) => {
-          this.singleCountry = response.data;
+          const recovered = ((response.data.recovered ?? 0) - (response.data.deaths ?? 0)) || 0;
+          this.singleCountry = { ...response.data, recovered };
           console.log(this.singleCountry);
-          this.helperService.showSuccess('Data until {{formattedDate}} successfully fetched')
+          this.helperService.showSuccess('Data until date successfully fetched');
         },
         (error) => {
           console.error('Error fetching country with date', error);

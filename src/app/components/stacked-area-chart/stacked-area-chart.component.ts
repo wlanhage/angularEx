@@ -17,6 +17,7 @@ export class StackedAreaChartComponent implements OnInit {
   @Input() selectedDate: any;
   @Input() displayMode: 'dashboard' | 'compare' = 'dashboard';
   @Input() compareCountries: any[] = [];
+  @Input() dataType: string = 'confirmed'
   componentData: any[] = [];
   view: [number, number] = [1000, 500];
   showLegend: boolean = true;
@@ -83,7 +84,7 @@ export class StackedAreaChartComponent implements OnInit {
               name: 'Confirmed',
               series: responses.map((response, index) => ({
                 name: dates[index].split('-')[0],
-                value: response.data.confirmed ?? 0
+                value: this.dataType === 'confirmed' ? response.data.confirmed ?? 0 : response.data.deaths ?? 0
               }))
             }
           ];
@@ -110,7 +111,7 @@ export class StackedAreaChartComponent implements OnInit {
               console.log(`Processing response for ${country.name} on ${dates[dateIndex]}:`, response);
               return {
                 name: dates[dateIndex].split('-')[0],
-                value: response.data.confirmed ?? 0
+                value: this.dataType === 'confirmed' ? (response.data.confirmed ?? 0) : (response.data.deaths ?? 0)
               };
             })
           }));

@@ -12,13 +12,14 @@ import { HelperService } from '../../services/helper/helper.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 
 
 @Component({
   selector: 'app-compare',
   standalone: true,
-  imports: [CommonModule, FormsModule, StackedAreaChartComponent, VerticalBarChartComponent, TableComponentComponent, HomebuttonComponent, MaterialModule],
+  imports: [CommonModule, FormsModule, StackedAreaChartComponent, VerticalBarChartComponent, TableComponentComponent, HomebuttonComponent, MaterialModule, NavbarComponent],
   providers: [],
   templateUrl: './compare.component.html',
   styleUrls: ['./compare.component.scss', /* '../../styleElements/styleElements.scss' */]
@@ -46,9 +47,8 @@ export class CompareComponent implements OnInit {
     if (state && state['selectedCountry']) {
       this.selectedCountries.push(state['selectedCountry'])
     }
-    console.log(this.selectedCountries, 'valda länder <');
+
   }
-  // INTE KLAR ^^^^^^^^^
 
   fetchCountries(): void {
     this.covidApiService.getCountries().subscribe(
