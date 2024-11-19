@@ -40,7 +40,7 @@ export class StackedAreaChartComponent implements OnInit {
   }
 
   updateChartSize(): void {
-    const width = window.innerWidth * 0.7;
+    const width = window.innerWidth * 0.75;
     const height = window.innerHeight * 0.7;
     this.view = [width, height];
     this.showLegend = window.innerWidth > 768;
