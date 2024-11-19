@@ -22,6 +22,7 @@ aside {
   background-color: #fefcff;
 
   flex-direction: column;
+  gap: 24px;
 
   padding-top: 24px;
   padding-left: 24px;
@@ -34,7 +35,7 @@ aside {
   border-right: rgba(156, 168, 183, 0.55) 2px solid;
 
   @media (max-width: 1000px) {
-    display: none;
+    width: 80vw;
   }
 
 }
@@ -113,4 +114,9 @@ mat-form-field {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+
+.mat-mdc-card-header {
+  padding: 0px;
 }

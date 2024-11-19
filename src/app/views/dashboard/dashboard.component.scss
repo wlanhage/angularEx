@@ -11,6 +11,18 @@
   flex-direction: column;
 }
 
+.flexBetween {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flexGap {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
 main {
   width: 100%;
   height: auto;
@@ -40,7 +52,7 @@ aside {
   border-right: rgba(156, 168, 183, 0.55) 2px solid;
 
   @media (max-width: 1000px) {
-    display: block;
+    width: 80vw;
   }
 }
 
