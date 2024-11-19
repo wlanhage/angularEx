@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 import { Router } from '@angular/router';
 
@@ -18,6 +18,10 @@ export class NavbarComponent {
 
   isAsideOpen = false;
 
+  ngOnInit(): void {
+    this.checkWindowSize();
+  }
+
   navigateToDashboard(): void {
     this.router.navigate(['/dashboard'])
   }
@@ -28,6 +32,20 @@ export class NavbarComponent {
 
   navigateTohome(): void {
     this.router.navigate(['/'])
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize(): void {
+    if (typeof window !== 'undefined' && window.innerWidth > 1000) {
+      this.isAsideOpen = true;
+    } else {
+      this.isAsideOpen = false;
+    }
+    this.asideToggled.emit(this.isAsideOpen);
   }
 
   toggleAside(): void {

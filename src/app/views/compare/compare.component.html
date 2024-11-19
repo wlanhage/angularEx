@@ -1,13 +1,9 @@
-<app-navbar></app-navbar>
+<app-navbar (asideToggled)="handleAsideToggle($event)"></app-navbar>
 <main>
-  <aside>
-  <div >
-    <mat-card-title>
-      <h1>Compare Countries</h1>
-    </mat-card-title>
-    <app-homebutton />
-
-    <mat-form-field matTooltip="Select countries to compare their data">
+  <aside *ngIf="isAsideOpen">
+  <div>
+    <h2>Compare Countries</h2>
+    <mat-form-field matTooltip="Select countries to compare their data" >
       <mat-label>Select country</mat-label>
       <mat-select name="countries" id="countries" [(ngModel)]="countryToAdd">
         <mat-option *ngFor="let country of countriesLoop" [value]="country">
@@ -15,30 +11,28 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison">Add</button>
+    <button mat-stroked-button (click)="addCountry()" matTooltip="Add selected country to data comparison" >Add</button>
   </div>
-    <h1>Select compare data</h1>
-  <mat-form-field matTooltip="Select countries to compare their data">
-    <mat-label>Select data</mat-label>
-    <mat-select [(ngModel)]="selectedDataType">
-      <mat-option value="confirmed">Confirmed</mat-option>
-      <mat-option value="deaths">Deaths</mat-option>
-    </mat-select>
-  </mat-form-field>
+
+  <div>
+    <h2>Select data</h2>
+    <mat-form-field matTooltip="Select countries to compare their data">
+      <mat-label>Data type</mat-label>
+      <mat-select [(ngModel)]="selectedDataType">
+        <mat-option value="confirmed">Confirmed</mat-option>
+        <mat-option value="deaths">Deaths</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
 </aside>
   <section>
     <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>
-          <h2>Country data</h2>
-        </mat-card-title>
-      </mat-card-header>
       <mat-card-content>
         <app-table-component [selectedCountries]="selectedCountries"></app-table-component>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="selectedCountries.length > 0" class="topMargin20">
+    <mat-card appearance="outlined" *ngIf="selectedCountries.length > 0" class="topMargin20">
       <mat-tab-group>
             <mat-tab label="Bar chart">
               <app-vertical-bar-chart [compareCountries]="selectedCountries" [displayMode]="'compare'" [dataType]="selectedDataType"></app-vertical-bar-chart>

@@ -62,7 +62,7 @@ export class NumbersCardChartComponent implements OnInit {
           (countryResponses: any[]) => {
             this.randomCountries = countryResponses.map((response: any, index: number) => ({
               name: selectedCountries[index].name,
-              value: response.data.confirmed,
+              value: response.data.confirmed ?? 0,
               iso: selectedCountries[index].iso
             }));
             this.dataLoaded = true;

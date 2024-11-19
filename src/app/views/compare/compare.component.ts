@@ -19,12 +19,14 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 @Component({
   selector: 'app-compare',
   standalone: true,
-  imports: [CommonModule, FormsModule, StackedAreaChartComponent, VerticalBarChartComponent, TableComponentComponent, HomebuttonComponent, MaterialModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, StackedAreaChartComponent, VerticalBarChartComponent, TableComponentComponent, MaterialModule, NavbarComponent],
   providers: [],
   templateUrl: './compare.component.html',
   styleUrls: ['./compare.component.scss', /* '../../styleElements/styleElements.scss' */]
 })
 export class CompareComponent implements OnInit {
+  isAsideOpen = false;
+
   countries: countriesData[] = [];
   selectedCountries: countriesData[] = [];
   countryToAdd: countriesData | null = null;
@@ -48,6 +50,10 @@ export class CompareComponent implements OnInit {
       this.selectedCountries.push(state['selectedCountry'])
     }
 
+  }
+
+  handleAsideToggle(isOpen: boolean): void {
+    this.isAsideOpen = isOpen;
   }
 
   fetchCountries(): void {

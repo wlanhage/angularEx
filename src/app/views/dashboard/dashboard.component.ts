@@ -6,17 +6,15 @@ import { Router } from '@angular/router';
 import { VerticalBarChartComponent } from '../../components/vertical-bar-chart/vertical-bar-chart.component';
 import { StackedAreaChartComponent } from "../../components/stacked-area-chart/stacked-area-chart.component";
 import { PieGridComponent } from '../../components/pie-grid/pie-grid.component'
-import { HomebuttonComponent } from '../../components/homebutton/homebutton.component';
 import { MaterialModule } from '../../material.module';
 import { countriesData } from '../../models/countries-data';
-import { response } from 'express';
 import { HelperService } from '../../services/helper/helper.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, PieGridComponent, HomebuttonComponent, MaterialModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, VerticalBarChartComponent, StackedAreaChartComponent, PieGridComponent, MaterialModule, NavbarComponent],
   providers: [DatePipe],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss', /* '../../styleElements/styleElements.scss' */]
@@ -52,7 +50,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchCountries();
-    this.checkWindowSize();
+
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.countryData = navigation.extras.state['countryData'];
@@ -76,24 +74,9 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/compare'], { state: { selectedCountry: this.selectedCountry }})
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.checkWindowSize();
-  }
-
-  checkWindowSize(): void {
-    if (typeof window !== 'undefined' && window.innerWidth > 1000) {
-      this.isAsideOpen = true;
-      console.log('over 1000');
-    } else {
-      this.isAsideOpen = false;
-    }
-  }
-
   handleAsideToggle(isOpen: boolean): void {
     this.isAsideOpen = isOpen;
   }
-
 
   toggleProvinces () {
     this.showProvinces = !this.showProvinces;
@@ -118,7 +101,8 @@ export class DashboardComponent implements OnInit {
     if (this.selectedCountry && this.selectedCountry.iso) {
       this.covidApiService.getSingleCountry(this.selectedCountry.iso).subscribe(
         (response) => {
-          this.singleCountry = response.data;
+          const recovered = ((response.data.confirmed) - (response.data.deaths));
+          this.singleCountry = { ...response.data, recovered };
           this.selectedCountry = { ...this.selectedCountry, ...response.data }; // Mergea datan för att skicka med confirmed och deaths till compare
           console.log(this.singleCountry);
         },
@@ -135,7 +119,7 @@ export class DashboardComponent implements OnInit {
       if (formattedDate) {
       this.covidApiService.getSingleCountryWithDate(this.selectedCountry.iso, formattedDate).subscribe(
         (response) => {
-          const recovered = ((response.data.recovered ?? 0) - (response.data.deaths ?? 0)) || 0;
+          const recovered = ((response.data.confirmed) - (response.data.deaths));
           this.singleCountry = { ...response.data, recovered };
           console.log(this.singleCountry);
           this.helperService.showSuccess('Data until date successfully fetched');
