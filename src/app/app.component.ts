@@ -11,5 +11,5 @@ import { LoaderComponent } from './components/loader/loader.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'angularExamensarbete';
+  title = 'Covid data visualization'
 }
