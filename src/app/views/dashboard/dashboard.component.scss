@@ -23,6 +23,16 @@
   gap: 24px;
 }
 
+.dataBoxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 main {
   width: 100%;
   height: auto;

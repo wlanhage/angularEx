@@ -16,11 +16,6 @@ export class HomeComponent {
   navigateToDashboard(): void {
     this.router.navigate(['/dashboard'])
   }
-
-  navigateToTestpage(): void {
-    this.router.navigate(['/testpage'])
-  }
-
   navigateToCompare(): void {
     this.router.navigate(['/compare'])
   }
